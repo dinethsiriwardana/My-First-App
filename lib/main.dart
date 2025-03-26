@@ -40,6 +40,13 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              setState(() {
+                data["title${data.length + 1}"] = "Task ${data.length + 1}";
+              });
+            },
+            child: Icon(Icons.add)),
       ),
     );
   }
