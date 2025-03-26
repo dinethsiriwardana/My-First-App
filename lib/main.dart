@@ -4,14 +4,26 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  MyApp({super.key});
-
+class MyApp extends StatelessWidget {
   @override
-  State<MyApp> createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Firebase Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: TaskListApp(),
+    );
+  }
 }
 
-class _MyAppState extends State<MyApp> {
+class TaskListApp extends StatefulWidget {
+  @override
+  _TaskListAppState createState() => _TaskListAppState();
+}
+
+class _TaskListAppState extends State<TaskListApp> {
   Map data = {
     "title1": "First Task",
     "title2": "Second Task",
@@ -21,46 +33,50 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Firebase Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Scaffold(
-        backgroundColor: const Color.fromARGB(136, 189, 189, 189),
-        body: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(children: [
-                ...data.entries
-                    .map((e) => card(e.key, e.value))
-                    .toList(growable: false),
-              ]),
-            ),
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(136, 189, 189, 189),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(children: [
+              ...data.entries
+                  .map((e) => card(e.key, e.value))
+                  .toList(growable: false),
+            ]),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                //  add task by dialog box
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Add Task'),
-                        content: TextField(
-                          onChanged: (value) {
-                            data['title${data.length + 1}'] = value;
-                          },
-                        ),
-                        actions: [],
-                      );
-                    });
-              });
-            },
-            child: Icon(Icons.add)),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            //  add task by dialog box
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text("Add Task"),
+                    content: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          data["title${data.length + 1}"] = value;
+                        });
+                      },
+                    ),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Cancel")),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Add")),
+                    ],
+                  );
+                });
+          },
+          child: Icon(Icons.add)),
     );
   }
 
