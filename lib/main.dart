@@ -16,25 +16,27 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
-        appBar: AppBar(title: Text("Todo")),
-        body: Center(
-          child: Column(children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.all(20),
-              width: double.infinity,
-              height: 80,
-              decoration: BoxDecoration(color: Colors.grey),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Title"),
-                  Text("dec"),
-                ],
-              ),
-            )
-          ]),
+        backgroundColor: const Color.fromARGB(137, 39, 39, 39),
+        body: SafeArea(
+          child: Center(
+            child: Column(children: [
+              Container(
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.all(20),
+                width: double.infinity,
+                height: 80,
+                decoration: BoxDecoration(color: Colors.grey[300]),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Title"),
+                    Text("dec"),
+                  ],
+                ),
+              )
+            ]),
+          ),
         ),
       ),
     );
