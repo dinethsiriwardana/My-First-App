@@ -24,14 +24,22 @@ class MyApp extends StatelessWidget {
                 padding: EdgeInsets.all(20),
                 margin: EdgeInsets.all(20),
                 width: double.infinity,
-                height: 80,
                 decoration: BoxDecoration(color: Colors.grey[300]),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Title"),
-                    Text("dec"),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Title"),
+                        Text("dec"),
+                      ],
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.done),
+                    )
                   ],
                 ),
               )
