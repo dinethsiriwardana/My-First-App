@@ -4,15 +4,21 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   Map data = {
     "title1": "First Task",
     "title2": "Second Task",
     "title3": "Third Task",
     "title4": "Fourth Task",
   };
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,7 +62,11 @@ class MyApp extends StatelessWidget {
             ],
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              // remove item
+              data.remove(title);
+              print(data);
+            },
             icon: Icon(Icons.done),
           )
         ],
