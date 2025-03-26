@@ -20,12 +20,14 @@ class MyApp extends StatelessWidget {
         body: Center(
           child: Column(children: [
             Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(20),
               margin: EdgeInsets.all(20),
               width: double.infinity,
-              height: 60,
+              height: 80,
               decoration: BoxDecoration(color: Colors.grey),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Title"),
                   Text("dec"),
