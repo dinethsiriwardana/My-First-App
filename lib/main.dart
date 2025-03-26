@@ -5,8 +5,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
+  Map data = {
+    "title1": "adsfhakhfdajkdhf",
+    "title2": "addsfsdsfhakhfdajkdhf",
+    "title3": "adsfhakhfdajkdhf",
+    "title4": "adsxdvxkjbfhakhfdajkdhf",
+  };
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
