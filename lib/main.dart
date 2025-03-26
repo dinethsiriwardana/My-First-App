@@ -21,19 +21,12 @@ class MyApp extends StatelessWidget {
           child: Center(
             child: SingleChildScrollView(
               child: Column(children: [
-                card(),
-                card(),
-                card(),
-                card(),
-                card(),
-                card(),
-                card(),
-                card(),
-                card(),
-                card(),
-                card(),
-                card(),
-                card(),
+                card("title 1", 'asudfghkuysgrdyfuo'),
+                card("title 2", 'esituhjdio'),
+                card("title 3", 'mbsdriofx'),
+                card("title 4", 'svrnised'),
+                card("title 5", 'asudfghkuysgrdyfuo'),
+                card("title 6", 'asudfghkuysgrdyfuo'),
               ]),
             ),
           ),
@@ -42,12 +35,12 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  Container card() {
+  Container card(String title, String dec) {
     return Container(
       padding: EdgeInsets.all(20),
       margin: EdgeInsets.all(20),
       width: double.infinity,
-      decoration: BoxDecoration(color: Colors.grey[300]),
+      decoration: BoxDecoration(color: Colors.blue[300]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -55,8 +48,8 @@ class MyApp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Title"),
-              Text("dec"),
+              Text(title),
+              Text(dec),
             ],
           ),
           IconButton(
