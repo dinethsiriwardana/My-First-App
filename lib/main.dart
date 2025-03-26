@@ -49,17 +49,22 @@ class _TaskListAppState extends State<TaskListApp> {
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             //  add task by dialog box
+            TextEditingController titleController = TextEditingController();
+            TextEditingController decController = TextEditingController();
             showDialog(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
                     title: Text("Add Task"),
-                    content: TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          data["title${data.length + 1}"] = value;
-                        });
-                      },
+                    content: Column(
+                      children: [
+                        TextField(
+                          controller: titleController,
+                        ),
+                        TextField(
+                          controller: decController,
+                        ),
+                      ],
                     ),
                     actions: [
                       TextButton(
@@ -69,7 +74,10 @@ class _TaskListAppState extends State<TaskListApp> {
                           child: Text("Cancel")),
                       TextButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            data[titleController.text] = decController.text;
+                            setState(() {
+                              Navigator.pop(context);
+                            });
                           },
                           child: Text("Add")),
                     ],
