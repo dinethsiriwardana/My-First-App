@@ -43,7 +43,20 @@ class _MyAppState extends State<MyApp> {
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               setState(() {
-                data["title${data.length + 1}"] = "Task ${data.length + 1}";
+                //  add task by dialog box
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Add Task'),
+                        content: TextField(
+                          onChanged: (value) {
+                            data['title${data.length + 1}'] = value;
+                          },
+                        ),
+                        actions: [],
+                      );
+                    });
               });
             },
             child: Icon(Icons.add)),
