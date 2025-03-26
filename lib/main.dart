@@ -64,8 +64,9 @@ class _MyAppState extends State<MyApp> {
           IconButton(
             onPressed: () {
               // remove item
-              data.remove(title);
-              print(data);
+              setState(() {
+                data.remove(title);
+              });
             },
             icon: Icon(Icons.done),
           )
