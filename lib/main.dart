@@ -10,8 +10,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: Scaffold(appBar: AppBar(title: Text('Hello World'))),
+      title: 'Firebase Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+
+      home: Scaffold(
+        appBar: AppBar(title: Text("Todo")),
+        body: Center(
+          child: Column(children: [Text("data"), Text("data"), Text("data")]),
+        ),
+      ),
     );
   }
 }
