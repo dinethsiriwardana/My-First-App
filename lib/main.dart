@@ -8,10 +8,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Firebase Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'My Todo App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        primarySwatch: Colors.purple,
+        brightness: Brightness.light,
       ),
       home: TaskListApp(),
     );
@@ -24,98 +25,141 @@ class TaskListApp extends StatefulWidget {
 }
 
 class _TaskListAppState extends State<TaskListApp> {
-  Map data = {
-    "title1": "First Task",
-    "title2": "Second Task",
-    "title3": "Third Task",
-    "title4": "Fourth Task",
+  Map<String, String> tasks = {
+    "Task 1": "Research studies",
+    "Task 2": "Study for the database exam",
+    "Task 3": "Workout in the evening",
   };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(136, 189, 189, 189),
+      backgroundColor: const Color.fromARGB(255, 207, 125, 218),
+      appBar: AppBar(
+        title: Text("My Todo App", style: TextStyle(fontFamily: 'Pacifico', fontSize: 24, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        elevation: 5,
+        shadowColor: Colors.purpleAccent,
+      ),
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(children: [
-              ...data.entries
-                  .map((e) => card(e.key, e.value))
-                  .toList(growable: false),
-            ]),
-          ),
-        ),
+        child: tasks.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 20),
+                    Text("No tasks yet!", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              )
+            : ListView.builder(
+                padding: EdgeInsets.all(16),
+                itemCount: tasks.length,
+                itemBuilder: (context, index) {
+                  String title = tasks.keys.elementAt(index);
+                  String desc = tasks[title]!;
+                  return taskCard(title, desc);
+                },
+              ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            //  add task by dialog box
-            TextEditingController titleController = TextEditingController();
-            TextEditingController decController = TextEditingController();
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text("Add Task"),
-                    content: Column(
-                      children: [
-                        TextField(
-                          controller: titleController,
-                        ),
-                        TextField(
-                          controller: decController,
-                        ),
-                      ],
-                    ),
-                    actions: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text("Cancel")),
-                      TextButton(
-                          onPressed: () {
-                            data[titleController.text] = decController.text;
-                            setState(() {
-                              Navigator.pop(context);
-                            });
-                          },
-                          child: Text("Add")),
-                    ],
-                  );
-                });
-          },
-          child: Icon(Icons.add)),
+        backgroundColor: Colors.purple,
+        onPressed: () => showAddTaskDialog(context),
+        child: Icon(Icons.add, size: 30),
+      ),
     );
   }
 
-  Container card(String title, String dec) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      margin: EdgeInsets.all(20),
-      width: double.infinity,
-      decoration: BoxDecoration(color: Colors.blue[300]),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
+  Widget taskCard(String title, String desc) {
+    return Dismissible(
+      key: Key(title),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        alignment: Alignment.centerRight,
+        color: Colors.redAccent,
+        child: Icon(Icons.delete, color: Colors.white, size: 30),
+      ),
+      onDismissed: (direction) {
+        setState(() {
+          tasks.remove(title);
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Task Removed"),
+          duration: Duration(seconds: 1),
+        ));
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 4,
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.purple,
+            child: Icon(Icons.task, color: Colors.white),
+          ),
+          title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+          subtitle: Text(desc),
+          trailing: IconButton(
+            icon: Icon(Icons.check_circle, color: Colors.green),
+            onPressed: () {
+              setState(() {
+                tasks.remove(title);
+              });
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("Task Completed"),
+                duration: Duration(seconds: 1),
+              ));
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showAddTaskDialog(BuildContext context) {
+    TextEditingController titleController = TextEditingController();
+    TextEditingController descController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Text("Add Task", style: TextStyle(fontWeight: FontWeight.bold)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(title),
-              Text(dec),
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(labelText: "Task Title", border: OutlineInputBorder()),
+              ),
+              SizedBox(height: 10),
+              TextField(
+                controller: descController,
+                decoration: InputDecoration(labelText: "Task Description", border: OutlineInputBorder()),
+              ),
             ],
           ),
-          IconButton(
-            onPressed: () {
-              // remove item
-              setState(() {
-                data.remove(title);
-              });
-            },
-            icon: Icon(Icons.done),
-          )
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Cancel", style: TextStyle(color: Colors.red)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(shape: StadiumBorder()),
+              onPressed: () {
+                if (titleController.text.isNotEmpty && descController.text.isNotEmpty) {
+                  setState(() {
+                    tasks[titleController.text] = descController.text;
+                  });
+                  Navigator.pop(context);
+                }
+              },
+              child: Text("Add Task"),
+            ),
+          ],
+        );
+      },
     );
   }
 }
